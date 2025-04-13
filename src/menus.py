@@ -3,7 +3,8 @@ def print_menu(options):
         print(f"({idx + 1}) {option.capitalize()}")
     
     menu_selection = 0
-    while menu_selection <= 0 and menu_selection >= len(options):
-        menu_selection = input(f"Select 1-{len(options)}:")
+    while menu_selection <= 0 or menu_selection > len(options):
+        menu_selection = int(input(f"Select a menu option (1-{len(options)}): "))
     
+    print("")
     return menu_selection
