@@ -1,6 +1,6 @@
 def print_menu(options):
     for idx, option in enumerate(options):
-        print(f"({idx + 1}) {option.capitalize()}")
+        print(f"({idx + 1}) {option}")
     
     menu_selection = 0
     while menu_selection <= 0 or menu_selection > len(options):
