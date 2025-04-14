@@ -23,6 +23,7 @@ def print_menu(options):
     print("")
     return menu_selection
 
+# Accepts a list of strings to return capitalized
 def capitalize_list(list):
     return [item.capitalize() for item in list]
 
@@ -35,9 +36,14 @@ while True:
     if not os.path.exists(DECK_DIR):
         os.mkdir(DECK_DIR)
     else: # add any existing decks
-        decks = [d for d in os.listdir(DECK_DIR) if os.path.isfile(os.path.join(DECK_DIR, d))]
-        for deck in decks:
-            deck_name = deck[:-5].replace("_", " ").title()
+        files = [d for d in os.listdir(DECK_DIR) if os.path.isfile(os.path.join(DECK_DIR, d))]
+        for file in files:
+            # parse info
+            deck_name = file[:-5].replace("_", " ").title()
+            langs = deck_name.split(" To ")
+            # add existing decks
+            decks.append(manage_deck.Deck(langs[0], langs[1], deck_name, DECK_DIR + "/" + file))
+            # insert into menu
             main_menu.insert(1, deck_name)
             
     # Print full main menu and get user's selection
@@ -58,7 +64,7 @@ while True:
             # Print deck name & options
             print(f"{main_menu[main_menu_selection - 1]} deck")
             deck_menu_selection = print_menu(deck_options)
-            open_deck = decks[main_menu_selection - 2]
+            open_deck = decks[main_menu_selection - 1]
             
             # Direct user to appropriate deck menu selection
             match deck_menu_selection:
@@ -71,7 +77,8 @@ while True:
                 case 3: # practice session
                     print("practice session")
                 case 4: # delete deck
-                    print("delete deck")
+                    open_deck.delete_deck()
+                    break
                 case _:
                     print("Closing deck...")
                     break
