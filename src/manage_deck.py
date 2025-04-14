@@ -22,3 +22,22 @@ def create_deck():
             deck.close()
             print(f"{learner_lang.capitalize()} to {target_lang.capitalize()} deck created.\n")
             
+
+def search_deck(lang_type, phrase, deck):
+    pass
+
+
+def delete_deck(deck):
+    pass
+
+
+def practice_deck(deck):
+    pass
+
+
+def add_cards(deck):
+    pass
+
+
+def delete_cards(deck):
+    pass
