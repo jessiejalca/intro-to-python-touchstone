@@ -12,7 +12,7 @@ def create_dictionary(regex):
         # Check if the dictionary already exists
         filepath = f"./data/{dict_file}"
         if os.path.exists(filepath):
-            print("That dictionary already exists.")
+            print("That dictionary already exists.\n")
         # If not, create an empty json array
         else:
             dictionary = open(filepath, "x")
