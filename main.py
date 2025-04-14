@@ -8,17 +8,22 @@ DECK_DIR = "./data"
 main_menu_selection = 0
 decks = []
 
+# Prints a menu list of options and returns the user's selection
 def print_menu(options):
+    # Print menu
     for idx, option in enumerate(options):
         print(f"({idx + 1}) {option}")
 
+    # Prompt for user's selection until given a valid response
     menu_selection = 0
     while menu_selection <= 0 or menu_selection > len(options):
         menu_selection = int(input(f"Select a menu option (1-{len(options)}): "))
 
+    # Return valid selection
     print("")
     return menu_selection
 
+# Loops until user exits
 while True:
     print("\n-------MAIN MENU-------")
     # Create main menu
