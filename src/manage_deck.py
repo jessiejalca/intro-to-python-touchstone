@@ -32,18 +32,82 @@ class Deck:
         self.name = name
         self.file = file
 
-    def search_deck(self, phrase, lang):
-        pass
+    # Find a card in the deck
+    def find_card(self, phrase, lang):
+        with open(self.file, 'r') as file:
+            cards = json.load(file)
+            for idx, card in enumerate(cards):
+                if card.get(lang) == phrase:
+                    return idx, card
+            return -1, None
 
+    # Delete the deck
     def delete_deck(self):
         os.remove(self.file)
         print(f"{self.name} deck deleted.")
 
     def practice_deck(self):
         pass
+    
+    # Print the card in a clear format
+    def print_card(self, learner_phrase, target_phrase, sentences):
+        print("-----------------")
+        print(f"{self.learner}: {learner_phrase}")
+        print(f"{self.target}: {target_phrase}")
+        print("Example sentences:")
+        for idx, sentence in enumerate(sentences):
+            print(f"    {idx + 1}. {sentence}")
+        print("-----------------")
 
-    def add_cards(self):
-        pass
+    # Prompt the user to add a card to the deck
+    def add_card(self):
+        new_card = {
+            "learner": "",
+            "target": "",
+            "sentences": [""] * 3
+        }
+        
+        # Get a new word or phrase
+        new_card["learner"] = input(f"Word or phrase in {self.learner}: ")
+        card_idx, _ = self.find_card(new_card["learner"], "learner")
+        if card_idx > -1:
+            print("That card already exists. Try another phrase.")
+            return
+        
+        # Get its translation in the target language
+        new_card["target"] = input(f"Word or phrase in {self.target}: ")
+        
+        # Get 3 example sentences that use it
+        for idx, sentence in enumerate(new_card["sentences"]):
+            # Require each sentence to have more than 20 characters
+            while len(sentence) < 20:
+                sentence = input("Use the phrase in a sentence: ")
+                if len(sentence) < 20:
+                    print("The sentence must have more than 20 characters.")
+                else:
+                    new_card["sentences"][idx] = sentence
+                    
+        # Print card 
+        print("Card created:")
+        self.print_card(new_card["learner"], new_card["target"], new_card["sentences"])
+        
+        # Check to confirm adding it to the deck
+        confirmation = ""
+        while confirmation != "y" or confirmation != "n":
+            confirmation = input("Add to deck? (y/n) ")
+        if confirmation == "y":
+            # Get entire deck
+            with open(self.file, 'r') as file:
+                cards = json.load(file)
+            # Append new card
+            cards.append(new_card)
+            # Update the json file
+            with open(self.file, 'w') as file:
+                json.dump(cards, file)
+            # Update the user
+            print(f"Success! Your card was added to your {self.name} deck.\n")
+        else:
+            print("No problem, it's discarded.")
 
-    def delete_cards(self):
+    def remove_card(self):
         pass

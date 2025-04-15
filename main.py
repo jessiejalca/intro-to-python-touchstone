@@ -58,27 +58,37 @@ while True:
         break
     else: # Open a deck
         # Set deck menu
-        deck_options = capitalize_list(["edit deck", "search deck", "practice session", "delete deck", "exit deck"])
+        deck_options = capitalize_list(["add cards", "remove cards", "search deck", "practice session", "delete deck", "exit deck"])
     
         while True:
             # Print deck name & options
             print(f"{main_menu[main_menu_selection - 1]} deck")
+            
+            # Get user selection & save deck
+            open_deck = decks[main_menu_selection - 2]
             deck_menu_selection = print_menu(deck_options)
-            open_deck = decks[main_menu_selection - 1]
             
             # Direct user to appropriate deck menu selection
             match deck_menu_selection:
-                case 1: # edit deck
-                    print("Ok, which action would you like to take?")
-                    edit_options = capitalize_list(["add cards", "delete cards", "return to deck menu"])
-                    edit_selection = print_menu(edit_options)
-                case 2: # search deck
+                case 1: # add cards
+                    print(f"Add to {open_deck.name} deck:")
+                    while True:
+                        open_deck.add_card()
+                        # Check if the user wants to continue or not
+                        exit = "" 
+                        while exit != "y" or exit != "n":
+                            exit = input("Add another card? (y/n) ")
+                        if exit == "n":
+                            print("Returning to deck menu...\n")
+                case 2: # remove cards
+                    print("remove cards")
+                case 3: # search deck
                     print("search deck")
-                case 3: # practice session
+                case 4: # practice session
                     print("practice session")
-                case 4: # delete deck
+                case 5: # delete deck
                     open_deck.delete_deck()
                     break
                 case _:
-                    print("Closing deck...")
+                    print("Closing deck...\n")
                     break
