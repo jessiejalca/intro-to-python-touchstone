@@ -56,8 +56,7 @@ class Deck:
         print(f"{self.target}: {target_phrase}")
         print("Example sentences:")
         for idx, sentence in enumerate(sentences):
-            print(f"  ({idx + 1}) {self.learner[0]}: {sentence["learner"]}")
-            print(f"      {self.target[0]}: {sentence["target"]}")
+            print(f"  ({idx + 1}) {sentence["learner"]} / {sentence["target"]}")
         print("-----------------")
 
     # Prompt the user to add a card to the deck
@@ -81,9 +80,8 @@ class Deck:
         # Get 3 example sentences that use it
         print(f"Now use the word. Use the phrase first in {self.learner}, translate it to {self.target}.")
         for idx, sentence in enumerate(new_card["sentences"]):
-            print(f"Sentence #{idx + 1}:")
-            learner_sentence = input(f"({self.learner}) ")
-            target_sentence = input(f"({self.target}) ")
+            learner_sentence = input(f"  ({idx + 1}) {self.learner[:3]}: ")
+            target_sentence = input(f"      {self.target[:3]}: ")
             sentence = {
                 "learner": learner_sentence,
                 "target": target_sentence
@@ -108,9 +106,10 @@ class Deck:
             with open(self.file, 'w') as file:
                 json.dump(cards, file)
             # Update the user
-            print(f"Success! Your card was added to your {self.name} deck.\n")
+            print(f"Success! Your card was added to your {self.name} deck.")
         else:
             print("No problem, it's discarded.")
+        print("")
 
     def remove_card(self):
         pass

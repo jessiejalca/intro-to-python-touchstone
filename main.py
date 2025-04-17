@@ -82,9 +82,22 @@ while True:
                             print("Returning to deck menu...\n")
                             break
                 case 2: # remove cards
-                    print("remove cards")
+                    print(f"Remove cards from {open_deck.name} deck:")
+                    while True:
+                        open_deck.remove_card()
+                        #Check if the user wants to continue or not
+                        exit = ""
+                        while exit != "y" and exit != "n":
+                            exit = input("Remove another card? (y/n) ")
+                        if exit == "n":
+                            print("Returning to deck menu...\n")
+                            break
                 case 3: # search deck
-                    print("search deck")
+                    print(f"Find cards in {open_deck.name} deck:")
+                    print("Input the word or phrase you'd like to remove from the deck,")
+                    print("prefixed by \"l:\" or \"t:\" to search by learner language or target language")
+                    # while True:
+                        
                 case 4: # practice session
                     print("practice session")
                 case 5: # delete deck
