@@ -42,7 +42,7 @@ while True:
             deck_name = file[:-5].replace("_", " ").title()
             langs = deck_name.split(" To ")
             # add existing decks
-            decks.append(manage_deck.Deck(langs[0], langs[1], deck_name, DECK_DIR + "/" + file))
+            decks.insert(0, manage_deck.Deck(langs[0], langs[1], deck_name, DECK_DIR + "/" + file))
             # insert into menu
             main_menu.insert(1, deck_name)
             
@@ -76,10 +76,11 @@ while True:
                         open_deck.add_card()
                         # Check if the user wants to continue or not
                         exit = "" 
-                        while exit != "y" or exit != "n":
+                        while exit != "y" and exit != "n":
                             exit = input("Add another card? (y/n) ")
                         if exit == "n":
                             print("Returning to deck menu...\n")
+                            break
                 case 2: # remove cards
                     print("remove cards")
                 case 3: # search deck

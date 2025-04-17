@@ -56,7 +56,8 @@ class Deck:
         print(f"{self.target}: {target_phrase}")
         print("Example sentences:")
         for idx, sentence in enumerate(sentences):
-            print(f"    {idx + 1}. {sentence}")
+            print(f"  ({idx + 1}) {self.learner[0]}: {sentence["learner"]}")
+            print(f"      {self.target[0]}: {sentence["target"]}")
         print("-----------------")
 
     # Prompt the user to add a card to the deck
@@ -64,7 +65,7 @@ class Deck:
         new_card = {
             "learner": "",
             "target": "",
-            "sentences": [""] * 3
+            "sentences": [None] * 3
         }
         
         # Get a new word or phrase
@@ -78,22 +79,24 @@ class Deck:
         new_card["target"] = input(f"Word or phrase in {self.target}: ")
         
         # Get 3 example sentences that use it
+        print(f"Now use the word. Use the phrase first in {self.learner}, translate it to {self.target}.")
         for idx, sentence in enumerate(new_card["sentences"]):
-            # Require each sentence to have more than 20 characters
-            while len(sentence) < 20:
-                sentence = input("Use the phrase in a sentence: ")
-                if len(sentence) < 20:
-                    print("The sentence must have more than 20 characters.")
-                else:
-                    new_card["sentences"][idx] = sentence
+            print(f"Sentence #{idx + 1}:")
+            learner_sentence = input(f"({self.learner}) ")
+            target_sentence = input(f"({self.target}) ")
+            sentence = {
+                "learner": learner_sentence,
+                "target": target_sentence
+            }
+            new_card["sentences"][idx] = sentence
                     
         # Print card 
-        print("Card created:")
+        print("\nCard created:")
         self.print_card(new_card["learner"], new_card["target"], new_card["sentences"])
         
         # Check to confirm adding it to the deck
         confirmation = ""
-        while confirmation != "y" or confirmation != "n":
+        while confirmation != "y" and confirmation != "n":
             confirmation = input("Add to deck? (y/n) ")
         if confirmation == "y":
             # Get entire deck
