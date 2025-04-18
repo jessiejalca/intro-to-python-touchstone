@@ -1,9 +1,11 @@
 # Language learning flashcard CLI
 
 import os
+import re
 from src import manage_deck
 
 DECK_DIR = "./data"
+SEARCH_RE = r'^(t|l):\s*(.+)'
 
 main_menu_selection = 0
 decks = []
@@ -26,6 +28,16 @@ def print_menu(options):
 # Accepts a list of strings to return capitalized
 def capitalize_list(list):
     return [item.capitalize() for item in list]
+
+# Stay or exit check
+def stay_check(yn_question):
+    stay = ""
+    while stay != "y" and stay != "n":
+        stay = input(f"{yn_question} (y/n) ")
+    if stay == "n":
+        print("Returning to deck menu...\n")
+        return False
+    return True
 
 # Loops until user exits
 while True:
@@ -75,28 +87,32 @@ while True:
                     while True:
                         open_deck.add_card()
                         # Check if the user wants to continue or not
-                        exit = "" 
-                        while exit != "y" and exit != "n":
-                            exit = input("Add another card? (y/n) ")
-                        if exit == "n":
-                            print("Returning to deck menu...\n")
+                        if not stay_check("Add another card?"):
                             break
+
                 case 2: # remove cards
                     print(f"Remove cards from {open_deck.name} deck:")
                     while True:
                         open_deck.remove_card()
                         #Check if the user wants to continue or not
-                        exit = ""
-                        while exit != "y" and exit != "n":
-                            exit = input("Remove another card? (y/n) ")
-                        if exit == "n":
-                            print("Returning to deck menu...\n")
+                        if not stay_check("Remove another card?"):
                             break
+                        
                 case 3: # search deck
                     print(f"Find cards in {open_deck.name} deck:")
-                    print("Input the word or phrase you'd like to remove from the deck,")
-                    print("prefixed by \"l:\" or \"t:\" to search by learner language or target language")
-                    # while True:
+                    print("Input the word or phrase you want to remove from the deck.")
+                    print(f"To search by your learner language ({open_deck.learner}), prefix with \"l:\"")
+                    print(f"To search by your target language ({open_deck.target}), prefix with \"t:\"")
+                    while True:
+                        search_input = input("\nWord or phrase to find: ").strip()
+                        match = re.match(SEARCH_RE, search_input)
+                        if match:
+                            prefix = match.group(1)
+                            phrase = match.group(2)
+                        else:
+                            print("Can't parse phrase or language. Remember to use syntax like this: \"l:to eat\" or \"t:manger\"")
+                        if not stay_check("Search again?"):
+                            break
                         
                 case 4: # practice session
                     print("practice session")
