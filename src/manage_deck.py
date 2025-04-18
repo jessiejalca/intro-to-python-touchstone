@@ -6,7 +6,7 @@ DECK_RE = r"[a-z]+_to_[a-z]+\.json"
 
 def create_deck():
     deck_file = ""
-    while re.match(deck_file, DECK_RE):
+    while not re.match(DECK_RE, deck_file):
         # Get the learner and target languages, and build the deck's file name with them
         learner_lang = input("Learner language (the one you're starting from): ").capitalize()
         target_lang = input("Target language (the one you're learning): ").capitalize()
