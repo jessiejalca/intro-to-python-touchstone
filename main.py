@@ -114,7 +114,7 @@ while True:
                         else:
                             # Remind the user of correct usage
                             print("Can't parse phrase or language. Remember to use syntax like this: \"l:to eat\" or \"t:manger\"")
-                        #Check if the user wants to continue or not
+                        # Check if the user wants to continue or not
                         if not stay_check("Remove another card?"):
                             break
                         
@@ -124,19 +124,25 @@ while True:
                     print(f"To search by your learner language ({open_deck.learner}), prefix with \"l:\"")
                     print(f"To search by your target language ({open_deck.target}), prefix with \"t:\"")
                     while True:
+                        # Get the card to search
                         search_input = input("\nWord or phrase to find: ").strip()
                         match = re.match(SEARCH_RE, search_input)
+                        # Parse the input
                         if match:
                             prefix = match.group(1)
                             phrase = match.group(2)
                             lang = "learner" if prefix == "l" else "target"
+                            # Find the card in the deck
                             _, card = open_deck.find_card(phrase, lang)
                             if card == None:
                                 print("Card not found.\n")
                             else:
+                                # Print the card
                                 open_deck.print_card(card["learner"], card["target"], card["sentences"])
                         else:
+                            # Remind the user of correct usage
                             print("Can't parse phrase or language. Remember to use syntax like this: \"l:to eat\" or \"t:manger\"")
+                        # Check if the user wants to continue or not
                         if not stay_check("Search again?"):
                             break
                         
