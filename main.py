@@ -109,6 +109,12 @@ while True:
                         if match:
                             prefix = match.group(1)
                             phrase = match.group(2)
+                            lang = "learner" if prefix == "l" else "target"
+                            _, card = open_deck.find_card(phrase, lang)
+                            if card == None:
+                                print("Card not found.\n")
+                            else:
+                                open_deck.print_card(card["learner"], card["target"], card["sentences"])
                         else:
                             print("Can't parse phrase or language. Remember to use syntax like this: \"l:to eat\" or \"t:manger\"")
                         if not stay_check("Search again?"):
