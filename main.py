@@ -92,8 +92,28 @@ while True:
 
                 case 2: # remove cards
                     print(f"Remove cards from {open_deck.name} deck:")
+                    print(f"To search by your learner language ({open_deck.learner}), prefix with \"l:\"")
+                    print(f"To search by your target language ({open_deck.target}), prefix with \"t:\"")
                     while True:
-                        open_deck.remove_card()
+                        # Get the card to remove
+                        remove_input = input("\nWord or phrase to remove: ").strip()
+                        match = re.match(SEARCH_RE, remove_input)
+                        # Parse the input
+                        if match:
+                            prefix = match.group(1)
+                            phrase = match.group(2)
+                            lang = "learner" if prefix == "l" else "target"
+                            # Find the card
+                            idx, _ = open_deck.find_card(phrase, lang)
+                            if idx > -1:
+                                # Remove the card if found
+                                open_deck.remove_card(idx)
+                            else:
+                                # Tell the user if it wasn't found
+                                print("Card not found.\n")
+                        else:
+                            # Remind the user of correct usage
+                            print("Can't parse phrase or language. Remember to use syntax like this: \"l:to eat\" or \"t:manger\"")
                         #Check if the user wants to continue or not
                         if not stay_check("Remove another card?"):
                             break
@@ -122,9 +142,11 @@ while True:
                         
                 case 4: # practice session
                     print("practice session")
+                    
                 case 5: # delete deck
                     open_deck.delete_deck()
                     break
+                
                 case _:
                     print("Closing deck...\n")
                     break

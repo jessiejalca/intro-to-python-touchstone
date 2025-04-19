@@ -34,8 +34,16 @@ class Deck:
 
     # Find a card in the deck
     def find_card(self, phrase, lang):
+        # Check if the file exists and is not empty
+        if not os.path.exists(self.file) or os.path.getsize(self.file) == 0:
+            return -1, None
         with open(self.file, 'r') as file:
-            cards = json.load(file)
+            try:
+                cards = json.load(file)
+            except json.JSONDecodeError:
+                print("Warning: Deck file is corrupted or empty.")
+                return -1, None
+
             for idx, card in enumerate(cards):
                 if card.get(lang) == phrase:
                     return idx, card
@@ -111,5 +119,19 @@ class Deck:
             print("No problem, it's discarded.")
         print("")
 
-    def remove_card(self):
-        pass
+    # Remove a card from the deck given an index
+    def remove_card(self, index):
+        # Load the deck
+        with open(self.file, 'r') as file:
+            cards = json.load(file)
+        # Print the card
+        self.print_card(cards[index]["learner"], cards[index]["target"], cards[index]["sentences"])
+        # Make sure the user wants to remove the card
+        confirmation = input("Are you sure you want to remove this card? (y/n) ")
+        if confirmation == "y":
+            # Remove the card from the deck
+            cards.pop(index)
+            # Update the file
+            with open(self.file, 'w') as file:
+                json.dump(cards, file)
+                print("Card removed.\n")
