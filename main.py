@@ -147,7 +147,8 @@ while True:
                             break
                         
                 case 4: # practice session
-                    print("practice session")
+                    print(f"Starting a practice session for {open_deck.name} deck...\n")
+                    open_deck.practice_deck()
                     
                 case 5: # delete deck
                     open_deck.delete_deck()

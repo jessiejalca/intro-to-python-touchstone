@@ -1,6 +1,7 @@
 import re
 import os
 import json
+import random
 
 DECK_RE = r"[a-z]+_to_[a-z]+\.json"
 
@@ -54,8 +55,45 @@ class Deck:
         os.remove(self.file)
         print(f"{self.name} deck deleted.")
 
+    # Practice the deck
     def practice_deck(self):
-        pass
+        correct = 0
+        incorrect = 0
+        stack = [None] * 20
+        
+        # Give the user instructions
+        print(f"For each sentence in {self.learner}, translate it to {self.target}. Then hit 'enter' to flip the card and check your answer.")
+
+        # Get the cards and the size of the deck to get a range
+        with open(self.file, 'r') as file:
+            cards = json.load(file)
+            total = len(cards)
+        # Randomly select cards within the range
+        for i, _ in enumerate(stack):
+            stack[i] = random.randint(0, total - 1)
+        # Go through the stack
+        for idx in stack:
+            # Randomly choose a sentence from the card
+            rand_sentence = random.randint(0, 2)
+            card = cards[idx]
+            # Print a sentence for the user to translate
+            print("\n-----------------")
+            print(f"({card["learner"]}) {card["sentences"][rand_sentence]["learner"]}")
+            input("-----------------")
+            # Print the other side
+            print(f"({card["target"]}) {card["sentences"][rand_sentence]["target"]}")
+            print("-----------------")
+            # See if the user got it right
+            confirmation = ""
+            while confirmation != "y" and confirmation != "n":
+                confirmation = input("Did you get it right? (y/n) ")
+            if confirmation == "y":
+                correct += 1
+            else:
+                incorrect += 1
+        
+        # Print the stats
+        print("")
     
     # Print the card in a clear format
     def print_card(self, learner_phrase, target_phrase, sentences):
