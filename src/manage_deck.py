@@ -59,7 +59,6 @@ class Deck:
     def practice_deck(self):
         correct = 0
         incorrect = 0
-        stack = [None] * 20
         
         # Give the user instructions
         print(f"For each sentence in {self.learner}, translate it to {self.target}. Then hit 'enter' to flip the card and check your answer.")
@@ -68,16 +67,16 @@ class Deck:
         with open(self.file, 'r') as file:
             cards = json.load(file)
             total = len(cards)
-        # Randomly select cards within the range
-        for i, _ in enumerate(stack):
-            stack[i] = random.randint(0, total - 1)
         # Go through the stack
-        for idx in stack:
+        for i in range(1, 20):
+            # Randomly select cards within range
+            rand_card = random.randint(0, total - 1)
+            card = cards[rand_card]
             # Randomly choose a sentence from the card
             rand_sentence = random.randint(0, 2)
-            card = cards[idx]
             # Print a sentence for the user to translate
-            print("\n-----------------")
+            print(f"")
+            print("-----------------")
             print(f"({card["learner"]}) {card["sentences"][rand_sentence]["learner"]}")
             input("-----------------")
             # Print the other side
