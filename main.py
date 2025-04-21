@@ -151,8 +151,17 @@ while True:
                     open_deck.practice_deck()
                     
                 case 5: # delete deck
-                    open_deck.delete_deck()
-                    break
+                    # Prevent accidental deletion of deck; require confirmation
+                    confirmation = ""
+                    while confirmation != "y" and confirmation != "n":
+                        confirmation = input(f"Are you sure you want to delete {open_deck.name} deck? (y/n) ")
+                    # Delete only if user confirms
+                    if confirmation == "y":
+                        open_deck.delete_deck()
+                        break
+                    # Return to deck menu if not
+                    else:
+                        continue
                 
                 case _:
                     print("Closing deck...\n")
