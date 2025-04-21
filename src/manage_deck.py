@@ -75,7 +75,7 @@ class Deck:
             # Randomly choose a sentence from the card
             rand_sentence = random.randint(0, 2)
             # Print a sentence for the user to translate
-            print(f"")
+            print(f"\n\nCARD {i} of 20")
             print("-----------------")
             print(f"({card["learner"]}) {card["sentences"][rand_sentence]["learner"]}")
             input("-----------------")
@@ -92,7 +92,9 @@ class Deck:
                 incorrect += 1
         
         # Print the stats
-        print("")
+        print("\nSession stats:")
+        print(f"# correct: {correct}")
+        print(f"# incorrect: {incorrect}\n")
     
     # Print the card in a clear format
     def print_card(self, learner_phrase, target_phrase, sentences):
